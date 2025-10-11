@@ -2,15 +2,15 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using UnityEngine.Animations;
 
-public class Panel
+public partial class Panel
 {
-    private static int m_PanelCount = 0;
-    public static List<Panel> m_PanelList = new List<Panel>();
-
     public GameObject PanelObject { get; private set; }
-    public int PanelIndex { get; private set; }
     public string PanelName { get; private set; }
+    public int PanelIndex;
+
+    private PanelManager panelManager;
 
     /**
     * Constructors
@@ -20,12 +20,12 @@ public class Panel
     {
         this.PanelObject = panelObject.gameObject;
         this.PanelName = panelName;
-        this.PanelIndex = m_PanelCount++;
 
-        if (PanelExists(panelObject))
-        {
-            throw new ApplicationException($"Panel already exists. Not added. Name: {panelName}");
-        }
+        // Move to PanelManager
+        // if (PanelExists(panelObject))
+        // {
+        //     throw new ApplicationException($"Panel already exists. Not added. Name: {panelName}");
+        // }
 
     }
 
@@ -33,57 +33,23 @@ public class Panel
     {
         this.PanelObject = panelObject.gameObject;
         this.PanelName = panelObject.name;
-        this.PanelIndex = m_PanelCount++;
 
-        if (PanelExists(panelObject))
-        {
-            throw new ApplicationException($"Panel already exists. Not added. Name: {panelObject.name}");
-        }
+        // Move to PanelManager
+        // if (PanelExists(panelObject))
+        // {
+        //     throw new ApplicationException($"Panel already exists. Not added. Name: {panelObject.name}");
+        // }
 
     }
 
-    /**
-    * Public Methods
-    **/
-
-    public Panel GetPanel(int ndx) { return m_PanelList.Single(i => i.PanelIndex == ndx); }
-    public Panel GetPanel(string name) { return m_PanelList.Single(n => n.PanelName == name); }
-    public Panel GetPanel(GameObject obj) { return m_PanelList.Single(o => o.PanelObject); }
-
-    public void SetPanelName(string panelName)
+    void Start()
     {
-        this.PanelName = string.IsNullOrEmpty(panelName)
-            || string.IsNullOrWhiteSpace(panelName) ? this.PanelName : panelName;
-    }
-
-    /** 
-    * Private Methods
-    **/
-
-    private bool PanelExists(Panel panel)
-    {
-        foreach (Panel p in m_PanelList)
-        {
-            if (p.PanelObject == panel.PanelObject) return true;
-        }
-        return false;
-    }
-
-    private bool PanelExists(GameObject panel)
-    {
-        foreach (Panel p in m_PanelList)
-        {
-            if (p.PanelObject == panel) return true;
-        }
-        return false;
-    }
-
-    private bool PanelExists(string panel)
-    {
-        foreach (Panel p in m_PanelList)
-        {
-            if (p.PanelName == panel) return true;
-        }
-        return false;
+        /**
+         * The parent of all Panel objects is supposed to be a PanelManager object.
+         * We get the refernce to the PanelManager object so we can call back to it.
+         * Add ourself to the managed panels list.
+         **/
+        panelManager = transform.parent.gameObject.GetComponent<PanelManager>();
+        this.PanelIndex = panelManager.AddManagedPanel(this);
     }
 }
