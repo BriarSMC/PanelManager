@@ -6,6 +6,8 @@ using UnityEngine.Animations;
 
 public partial class Panel
 {
+    [SerializeField] string panelName;
+
     public GameObject PanelObject { get; private set; }
     public string PanelName { get; private set; }
     public int PanelIndex;
@@ -20,26 +22,12 @@ public partial class Panel
     {
         this.PanelObject = panelObject.gameObject;
         this.PanelName = panelName;
-
-        // Move to PanelManager
-        // if (PanelExists(panelObject))
-        // {
-        //     throw new ApplicationException($"Panel already exists. Not added. Name: {panelName}");
-        // }
-
     }
 
     public Panel(GameObject panelObject)
     {
         this.PanelObject = panelObject.gameObject;
-        this.PanelName = panelObject.name;
-
-        // Move to PanelManager
-        // if (PanelExists(panelObject))
-        // {
-        //     throw new ApplicationException($"Panel already exists. Not added. Name: {panelObject.name}");
-        // }
-
+        this.PanelName = string.IsNullOrEmpty(panelName) ? this.PanelName = panelObject.name : panelName;
     }
 
     void Start()
@@ -51,5 +39,6 @@ public partial class Panel
          **/
         panelManager = transform.parent.gameObject.GetComponent<PanelManager>();
         this.PanelIndex = panelManager.AddManagedPanel(this);
+        if (!string.IsNullOrEmpty(this.PanelName) && !string.IsNullOrEmpty(panelName)) this.PanelName = panelName;
     }
 }
