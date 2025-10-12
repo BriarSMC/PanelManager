@@ -1,10 +1,7 @@
 using UnityEngine;
-using System.Collections.Generic;
-using System;
-using System.Linq;
-using UnityEngine.Animations;
+using System.Reflection;
 
-public partial class Panel
+public class Panel : MonoBehaviour
 {
     [SerializeField] string panelName;
 
@@ -18,27 +15,54 @@ public partial class Panel
     * Constructors
     **/
 
+    public Panel()
+    {
+    }
+
     public Panel(GameObject panelObject, string panelName)
     {
         this.PanelObject = panelObject.gameObject;
         this.PanelName = panelName;
+        this.PanelIndex = -1;
     }
 
     public Panel(GameObject panelObject)
     {
         this.PanelObject = panelObject.gameObject;
         this.PanelName = string.IsNullOrEmpty(panelName) ? this.PanelName = panelObject.name : panelName;
+        this.PanelIndex = -1;
     }
 
-    void Start()
+    /** 
+     * Unity Methods
+     **/
+    void Awake()
     {
         /**
          * The parent of all Panel objects is supposed to be a PanelManager object.
          * We get the refernce to the PanelManager object so we can call back to it.
          * Add ourself to the managed panels list.
          **/
+
         panelManager = transform.parent.gameObject.GetComponent<PanelManager>();
+
+        this.PanelObject = this.PanelObject == null ? this.gameObject : this.PanelObject;
+        if (string.IsNullOrEmpty(this.PanelName) && !string.IsNullOrEmpty(panelName)) this.PanelName = panelName;
+        if (string.IsNullOrEmpty(this.PanelName)) this.PanelName = this.gameObject.name;
         this.PanelIndex = panelManager.AddManagedPanel(this);
-        if (!string.IsNullOrEmpty(this.PanelName) && !string.IsNullOrEmpty(panelName)) this.PanelName = panelName;
+    }
+
+    public override string ToString()
+    {
+        return $"{this.PanelObject.name}/{this.PanelName}/{this.PanelIndex}";
+    }
+
+    /**
+     * Public Methods
+     **/
+    public void SetPanelName(string panelName)
+    {
+        this.PanelName = string.IsNullOrEmpty(panelName)
+            || string.IsNullOrWhiteSpace(panelName) ? this.PanelName : panelName;
     }
 }

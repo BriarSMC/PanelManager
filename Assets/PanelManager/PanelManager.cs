@@ -2,11 +2,18 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Reflection;
 
 public class PanelManager : MonoBehaviour
 {
+    [SerializeReference] Panel initialPanel;
+
     public List<Panel> managedPanels;
-    private List<Panel> panelStack;
+    public List<Panel> panelStack;
+
+    /**
+     * Unity Methods
+     **/
 
     void Awake()
     {
@@ -14,10 +21,29 @@ public class PanelManager : MonoBehaviour
         panelStack = new List<Panel>();
     }
 
+    void Start()
+    {
+        /**
+         * Die if no managed panels exist.
+         * If initialPanel isn't set, then just use the first one in the managed panels.
+         * Disable all panels.
+         * Push the initial panel onto the stack.
+         **/
+        if (managedPanels.Count == 0) throw new ApplicationException("PanalManager: No panels found.");
+        if (initialPanel == null) { initialPanel = managedPanels[0]; }
+        TurnOffAllPanels();
+        Push(initialPanel); // Put it on the stack
+    }
+
     // managedPanel Methods
+
+    public void TurnOffAllPanels() { foreach (Panel panel in managedPanels) { panel.gameObject.SetActive(false); } }
+    public void TurnOffPanel(Panel panel) { panel.gameObject.SetActive(false); }
+    public void TurnOnPanel(Panel panel) { panel.gameObject.SetActive(true); }
 
     public int AddManagedPanel(Panel panel)
     {
+        Debug.Log($"{this.name}:{MethodBase.GetCurrentMethod().Name}> {panel.gameObject.name}");
         if (IsPanelFound(panel)) { throw new ApplicationException($"Panel already exists. Not added. Name: {panel.PanelName}"); }
         managedPanels.Add(panel);
         return managedPanels.Count - 1;
@@ -40,11 +66,58 @@ public class PanelManager : MonoBehaviour
     public Panel GetStackPanel(string name) { return panelStack.Single(n => n.PanelName == name); }
     public Panel GetStackPanel(GameObject obj) { return panelStack.Single(o => o.PanelObject); }
 
-    public int Push(Panel panel) { return 0; }
+    public int Push(string name) { return Push(FindManagedPanel(name)); }
+    public int Push(Panel panel)
+    {
+        Debug.Log($"{this.name}:{MethodBase.GetCurrentMethod().Name}(Panel)> {panel?.PanelName}");
 
-    public int Pop() { return 1; }
-    public int Pop(int count) { return count; }
+        /**
+         * If the panel is in the managed list, then we can process it
+         * We need to make the current panel (last one in the stake) disabled. (If it exists.)
+         * Add the panel to the stack.
+         * Enable it.
+         * Return the stack index of the entry.
+         *
+         * Otherwise, bitch, whine and moan about it.
+         **/
+        if (FindManagedPanel(panel))
+        {
+            if (panelStack.Count > 0) TurnOffPanel(panelStack[panelStack.Count - 1]);
+            panelStack.Add(panel);
+            TurnOnPanel(panel);
+            return panelStack.Count - 1;
+        }
+        else
+        {
+            throw new ApplicationException("Cannot Push Panel. Panel not found in managed list.");
+        }
+    }
+
+    public int Pop() { return Pop(1); }
+    public int Pop(int count)
+    {
+        /** 
+         * If there are not enough panels on the stack, then we will just remove everything after the first panel.
+         * Otherwise, remove count entries.
+         **/
+        TurnOffAllPanels();
+        if (panelStack.Count >= count) panelStack.RemoveRange(1, panelStack.Count - 1);
+        if (panelStack.Count < count) panelStack.RemoveRange(panelStack.Count - count, panelStack.Count - count);
+        panelStack.ForEach(p => TurnOnPanel(p));
+        return panelStack.Count;
+    }
+
+    public int JumpTo(int index) { return 1; }
+    public int JumpTo(Panel panel) { return 1; }
 
     public int GetStackPanelCount() { return panelStack.Count; }
+
+    /** 
+     * Private Methods
+     **/
+
+    private Panel FindManagedPanel(string name) { return managedPanels.SingleOrDefault(p => p.PanelName == name); }
+    private Panel FindManagedPanel(Panel panel) { return managedPanels.SingleOrDefault(p => p.PanelObject == panel.gameObject); }
+    private Panel FindManagedPanel(int i) { return managedPanels[Math.Clamp(i, 0, managedPanels.Count)]; }
 
 }
