@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Reflection;
+using UnityEngine.Rendering;
 
 public class PanelManager : MonoBehaviour
 {
@@ -101,14 +102,32 @@ public class PanelManager : MonoBehaviour
          * Otherwise, remove count entries.
          **/
         TurnOffAllPanels();
-        if (panelStack.Count >= count) panelStack.RemoveRange(1, panelStack.Count - 1);
-        if (panelStack.Count < count) panelStack.RemoveRange(panelStack.Count - count, panelStack.Count - count);
-        panelStack.ForEach(p => TurnOnPanel(p));
+
+        if (panelStack.Count <= 0) throw new ApplicationException("Panel stack is empty. Nothing to pop.");
+        if (panelStack.Count == 1) return 0; ;
+
+        if (count >= panelStack.Count)
+            panelStack.RemoveRange(1, panelStack.Count - 1);
+        else
+            panelStack.RemoveRange(panelStack.Count - count, count);
+
+        TurnOnPanel(panelStack[panelStack.Count - 1]);
         return panelStack.Count;
     }
 
     public int JumpTo(int index) { return 1; }
     public int JumpTo(Panel panel) { return 1; }
+
+    public void Swap()
+    {
+        if (panelStack.Count <= 1) return;
+        TurnOffAllPanels();
+        Panel hold = panelStack[panelStack.Count - 1];
+        panelStack[panelStack.Count - 1] = panelStack[panelStack.Count - 1];
+        panelStack[panelStack.Count - 2] = hold;
+        TurnOnPanel(panelStack[panelStack.Count - 1]);
+
+    }
 
     public int GetStackPanelCount() { return panelStack.Count; }
 
