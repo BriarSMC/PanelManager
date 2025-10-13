@@ -9,8 +9,8 @@ public class PanelManager : MonoBehaviour
 {
     [SerializeReference] Panel initialPanel;
 
-    public List<Panel> managedPanels;
-    public List<Panel> panelStack;
+    public List<Panel> managedPanels = new List<Panel>();  // Panel objects will add themselves to this list in no particular order;
+    public List<Panel> panelStack = new List<Panel>();
 
     /**
      * Unity Methods
@@ -18,11 +18,10 @@ public class PanelManager : MonoBehaviour
 
     void Awake()
     {
-        managedPanels = new List<Panel>();  // Panel objects will add themselves to this list in no particular order
-        panelStack = new List<Panel>();
+
     }
 
-    void Start()
+    void OnEnable()
     {
         /**
          * Die if no managed panels exist.
@@ -32,12 +31,17 @@ public class PanelManager : MonoBehaviour
          **/
         if (managedPanels.Count == 0) throw new ApplicationException("PanalManager: No panels found.");
         if (initialPanel == null) { initialPanel = managedPanels[0]; }
-        TurnOffAllPanels();
         Push(initialPanel); // Put it on the stack
+        ManagerEnable(false);
     }
 
     // managedPanel Methods
-
+    public void ManagerEnable(bool enable)
+    {
+        if (enable) TurnOnPanel(panelStack[panelStack.Count - 1]);
+        else
+            TurnOffAllPanels();
+    }
     public void TurnOffAllPanels() { foreach (Panel panel in managedPanels) { panel.gameObject.SetActive(false); } }
     public void TurnOffPanel(Panel panel) { panel.gameObject.SetActive(false); }
     public void TurnOnPanel(Panel panel) { panel.gameObject.SetActive(true); }
