@@ -123,7 +123,7 @@ public class PanelManager : MonoBehaviour
         if (panelStack.Count <= 1) return;
         TurnOffAllPanels();
         Panel hold = panelStack[panelStack.Count - 1];
-        panelStack[panelStack.Count - 1] = panelStack[panelStack.Count - 1];
+        panelStack[panelStack.Count - 1] = panelStack[panelStack.Count - 2];
         panelStack[panelStack.Count - 2] = hold;
         TurnOnPanel(panelStack[panelStack.Count - 1]);
 
