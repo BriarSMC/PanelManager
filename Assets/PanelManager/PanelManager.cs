@@ -123,6 +123,24 @@ public class PanelManager : MonoBehaviour
         return panelStack.Count;
     }
 
+    public int PopTo(string name)
+    {
+        int ndx = panelStack.FindIndex(x => x.PanelName == name);
+        DeleteStackFromIndex(ndx);
+        return 0;
+    }
+    public int PopTo(int ndx)
+    {
+        DeleteStackFromIndex(ndx);
+        return ndx;
+    }
+    public int PopTo(Panel panel)
+    {
+        int ndx = panelStack.IndexOf(panel);
+        DeleteStackFromIndex(ndx);
+        return ndx;
+    }
+
     public int JumpTo(int index) { return 1; }
     public int JumpTo(Panel panel) { return 1; }
 
@@ -153,5 +171,13 @@ public class PanelManager : MonoBehaviour
          * Find all the children panels and load them into managedPanels
          **/
         managedPanels = new List<Panel>(GetComponentsInChildren<Panel>());
+    }
+
+    private void DeleteStackFromIndex(int ndx)
+    {
+        if (ndx == -1) throw new ApplicationException("Could not pop to requested panel. Panel not found.");
+        TurnOffAllPanels();
+        panelStack.RemoveRange(ndx + 1, panelStack.Count - ndx - 1);
+        TurnOnPanel(panelStack[ndx]);
     }
 }
