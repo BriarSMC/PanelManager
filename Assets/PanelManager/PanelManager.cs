@@ -9,7 +9,7 @@ public class PanelManager : MonoBehaviour
 {
     [SerializeReference] Panel initialPanel;
 
-    public List<Panel> managedPanels = new List<Panel>();  // Panel objects will add themselves to this list in no particular order;
+    public List<Panel> managedPanels;
     public List<Panel> panelStack = new List<Panel>();
 
     /**
@@ -21,7 +21,7 @@ public class PanelManager : MonoBehaviour
 
     }
 
-    void OnEnable()
+    void Start()
     {
         /**
          * Die if no managed panels exist.
@@ -29,11 +29,14 @@ public class PanelManager : MonoBehaviour
          * Disable all panels.
          * Push the initial panel onto the stack.
          **/
+        FindPanels();
         if (managedPanels.Count == 0) throw new ApplicationException("PanalManager: No panels found.");
         if (initialPanel == null) { initialPanel = managedPanels[0]; }
         Push(initialPanel); // Put it on the stack
         ManagerEnable(false);
     }
+
+
 
     // managedPanel Methods
     public void ManagerEnable(bool enable)
@@ -42,6 +45,7 @@ public class PanelManager : MonoBehaviour
         else
             TurnOffAllPanels();
     }
+
     public void TurnOffAllPanels() { foreach (Panel panel in managedPanels) { panel.gameObject.SetActive(false); } }
     public void TurnOffPanel(Panel panel) { panel.gameObject.SetActive(false); }
     public void TurnOnPanel(Panel panel) { panel.gameObject.SetActive(true); }
@@ -143,4 +147,11 @@ public class PanelManager : MonoBehaviour
     private Panel FindManagedPanel(Panel panel) { return managedPanels.SingleOrDefault(p => p.PanelObject == panel.gameObject); }
     private Panel FindManagedPanel(int i) { return managedPanels[Math.Clamp(i, 0, managedPanels.Count)]; }
 
+    private void FindPanels()
+    {
+        /**
+         * Find all the children panels and load them into managedPanels
+         **/
+        managedPanels = new List<Panel>(GetComponentsInChildren<Panel>());
+    }
 }
