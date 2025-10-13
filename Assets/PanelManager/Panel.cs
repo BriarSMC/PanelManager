@@ -9,8 +9,6 @@ public class Panel : MonoBehaviour
     public string PanelName { get; private set; }
     public int PanelIndex;
 
-    private PanelManager panelManager;
-
     /**
     * Constructors
     **/
@@ -39,17 +37,13 @@ public class Panel : MonoBehaviour
     void Awake()
     {
         /**
-         * The parent of all Panel objects is supposed to be a PanelManager object.
-         * We get the refernce to the PanelManager object so we can call back to it.
-         * Add ourself to the managed panels list.
+         * Set the name of the panel
          **/
 
-        panelManager = transform.parent.gameObject.GetComponent<PanelManager>();
 
         this.PanelObject = this.PanelObject == null ? this.gameObject : this.PanelObject;
         if (string.IsNullOrEmpty(this.PanelName) && !string.IsNullOrEmpty(panelName)) this.PanelName = panelName;
         if (string.IsNullOrEmpty(this.PanelName)) this.PanelName = this.gameObject.name;
-        this.PanelIndex = panelManager.AddManagedPanel(this);
     }
 
     public override string ToString()
