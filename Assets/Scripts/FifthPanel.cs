@@ -5,11 +5,11 @@ public class FifthPanel : MonoBehaviour
 {
     [SerializeReference] PanelManager panelManager;
     [SerializeReference] Button prevBtn;
-    [SerializeReference] Button jumpBtn;
+    [SerializeReference] Button popBtn;
 
     void Start()
     {
         prevBtn.onClick.AddListener(() => panelManager.Pop());
-        jumpBtn.onClick.AddListener(() => panelManager.Pop(2));
+        popBtn.onClick.AddListener(() => panelManager.Pop(2));
     }
 }
