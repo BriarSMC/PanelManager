@@ -5,7 +5,12 @@
 **13-Oct-2025**\
 _Version 0.1.0_
 
+Copyright © 2025 by Steven M. Coghill\
+This project is licensed under the MIT License.A copy of the MIT License can be found in the accompanying LICENSE.txt file.
+
 ---
+
+## Document Purpose
 
 This document details how the PanelManager Unity Package is constructed and how to package manages UI panels.
 
@@ -67,7 +72,7 @@ Drag the **PanelManager** object in the Unity Editor to this field.
 
 `[SerializeField] string panelName;`
 
-**panelName** is a private, serialized property the developer can set in the Unity Editor. If present (not null), then the constructors or the `Awake()` method will set property **PanelName** to this value.
+**panelName** is a private, serialized property the developer can set in the Unity Editor Inspector. If present (not null), then the constructors or the `Awake()` method will set property **PanelName** to this value.
 
 ### Public Properties
 
@@ -105,7 +110,7 @@ _Function_
 - Initialize PanelName
 
 `Awake` Sets **PanelObject** to `this.gameObject`.
-If the developer set **panelName** in the Unity editor, then `Awake` will set **PanelName** to this value. Otherwise, it sets it to `this.gameObject.name`.
+If the developer set **panelName** in the Unity Editor Inspector, then `Awake` will set **PanelName** to this value. Otherwise, it sets it to `this.gameObject.name`.
 
 `public override void ToString()`
 
@@ -143,7 +148,7 @@ Contains the version of the package.
 
 `public List<Panel> managedPanels`
 
-**PanelManager** stores references to all the panels it controls. The order of panels is what `GetCompnentsInChildren<Panel>` returns.
+**PanelManager** stores references to all the panels it controls. The order of panels is what `GetComponentsInChildren<Panel>` returns.
 
 `public List<Panel> panelStack`
 
@@ -159,6 +164,110 @@ No explicit constructor.
 
 ## Unity Methods
 
+`void Start()`
+
+- Find all the child **Panel** objects.
+- Throw and exception if none are found. We do not provide a "no **Panel**s solution.
+- If the developer didn't set the first **Panel** to display in the Unity Editor Inspector, then set the first **Panel** to display to the first **Penal** returned when finding all child **Panel** objects.
+- Push the first **Panel** onto the stack.
+- Disable the PanelManager logic. Application must explicitly enable **PanelManager** to display UI panels.
+
+**NOTE:** _Need to add logic to throw an error if any of the child panels contain duplicate names._
+
 ## Public Methods
 
+`public void ManagerEnable(bool)`
+
+When true, just turn on the last panel on the stack. Otherwise, turn off all of the panels in the stack.
+
+**NOTE:** _This is left over from when we had each Panel object call PanelManager to
+add itself to the managedPanels list. We refactored so that the PanelManager now
+finds all of its child Panel objects and adds them to the list. We are keeping it in
+because if we ever allow for dynamically created panels, then this will the be way
+to add them to our list._
+
+`public void TurnOffAllPanels()`
+
+Turn all panels off. This approach is brute force. We don't go through the panel stack and try to figure out which panels to turn off. Since this version simply displays the last **Panel** on the stack we just turn everything off cuz we're lazy.
+
+`public void TurnOffPanel(Panel)`
+
+Turn the specified panel off.
+
+`public TurnOnPanel(Panel)`
+
+Turn the specified panel on
+
+`public int GetManagedPanelCount()`
+
+Just return the number of elements in the managed panels list.
+
+**NOTE:** \_We added this method just for completeness sake. No one outside of PanelManager should care about how many elements are in the managed panel list. So we don't need a public method, and then we don't need a method period since we can just use `managedPanels.Count`.
+
+`public int GetPanelStackCount()`
+
+Return the number of panels on the stack.
+
+`public int Push(string)`\
+`public int Push(Panel)`
+
+Push the specified panel onto the stack.
+
+Return the index of the panel on the stack.
+
+Throw an exception if the **Panel** is not contained in `managedPanels`.\
+Add the **Panel** to the end of the stack. Turn on the new **Panel**.
+
+`public int Pop([int])`
+
+We throw an exception if the stack doesn't have enough element for the Pop request. (We are not a forgiving package. (i. e. We're lazy. (We think we mentioned this before.)))
+
+Pop specified number of **Panel** objects from the stack. The default is 1.
+
+We turn off all of the **Panel** objects until we are finished. Then we turn on the last item in the stack.
+
+We use the `List.RemoveRange()` to pop off items.
+
+`public int PopTo(string)`\
+`public int PopTo(int)`\
+`public int PopTo(Panel)`
+
+Delete all the items on top of the stack until we reach the specified panel.
+
+`public void Swap()`
+
+Swap the last two (2) entries on the stack.
+
+`public int GetPanelStackCount
+
 ## Private Methods
+
+`private bool IsPanelManaged(Panel)`\
+`private bool IsPanelManaged(GameObject)` (might be redundant)\
+`private bool IsPanelManaged(name)`
+
+Return if the specified **Panel** object exists in the `managedPanels` list.
+
+**NOTE:** _May have to implement `private bool IsPanelManaged(int)` for completeness._
+
+`private Panel FindManagedPanel(string)`\
+`private Panel FindManagedPanel(Panel)`\
+`private Panel FindManagedPanel(int)`
+
+Return the panel the specified **Panel** if it is in the `managedPanels` list. Return null if not found.
+
+`private Panel GetStackPanel(string)`\
+`private Panel GetStackPanel(GameObject)`\
+`private Panel GetStackPanel(int)`
+
+Return the panel the specified **Panel** if it is in the `panelStack` list. Return null if not found.
+
+**NOTE:** _We don't use these in the class. We wrote the in anticipation of using them. We will ponder deleting them in the future._
+
+`private void FindPanels()`
+
+Find all child **Panel** objects and load the **Panel** references into the `managedPanels` list.
+
+`private void DeleteStackFromIndex(int)`
+
+Remove the specified **Panel** (by index) from the `panelStack` list.

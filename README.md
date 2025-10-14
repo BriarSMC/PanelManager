@@ -50,8 +50,8 @@ the Panel Manager are children of the Panel Manager. The **Panel** object will a
 
 ### Private Methods
 
-- **_bool IsPanelFound(Panel panel)_**\
-  **_bool IsPanelFound(string name)_**
+- **_bool IsPanelManaged(Panel panel)_**\
+  **_bool IsPanelManaged(string name)_**
 
   Test to see if an object already exists in the managedPanels list.
 

@@ -36,11 +36,6 @@ public class PanelManager : MonoBehaviour
      * Unity Methods
      **/
 
-    // void Awake()
-    // {
-
-    // }
-
     void Start()
     {
         /**
@@ -51,6 +46,7 @@ public class PanelManager : MonoBehaviour
          **/
 
         FindPanels();
+        //TODO Need to throw an exception if managedPanels contains duplicate names.
         if (managedPanels.Count == 0) throw new ApplicationException("PanalManager: No panels found.");
         if (initialPanel == null) { initialPanel = managedPanels[0]; }
         Push(initialPanel); // Put it on the stack
@@ -65,39 +61,41 @@ public class PanelManager : MonoBehaviour
 
     public void ManagerEnable(bool enable)
     {
+        /**
+         * When true, just turn on the last panel on the stack.
+         * Otherwise, turn off all of the panels in the stack.
+         **/
+
         if (enable) TurnOnPanel(panelStack[panelStack.Count - 1]);
         else
             TurnOffAllPanels();
     }
-
+    //TODO Consider making the next 3 methods "private"
     public void TurnOffAllPanels() { foreach (Panel panel in managedPanels) { panel.gameObject.SetActive(false); } }
     public void TurnOffPanel(Panel panel) { panel.gameObject.SetActive(false); }
     public void TurnOnPanel(Panel panel) { panel.gameObject.SetActive(true); }
 
     public int AddManagedPanel(Panel panel)
     {
-        Debug.Log($"{this.name}:{MethodBase.GetCurrentMethod().Name}> {panel.gameObject.name}");
-        if (IsPanelFound(panel)) { throw new ApplicationException($"Panel already exists. Not added. Name: {panel.PanelName}"); }
+        /**
+         * Throw an exception if the panel is not in our list.
+         * Add the panel to our managedPanels list.
+         * Return the index in the managedPanels list of the new panel.
+         *
+         * Note: This is left over from when we had each Panel object call PanelManager to 
+         * add itself to the managedPanels list. We refactored so that the PanelManager now
+         * finds all of its child Panel objects and adds them to the list. We are keeping it in
+         * because if we ever allow for dynamically created panels, then this will the be way 
+         * to add them to our list.
+         **/
+
+        if (IsPanelManaged(panel)) { throw new ApplicationException($"Panel already exists. Not added. Name: {panel.PanelName}"); }
         managedPanels.Add(panel);
         return managedPanels.Count - 1;
     }
 
-    public int GetManagedPanelCount() { return managedPanels.Count; }
-
+    public int GetManagedPanelCount() { return managedPanels.Count; } //TODO Possibly remove method
     public int GetPanelStackCount() { return panelStack.Count; }
-
-    public void RemoveFromManagedPanels(Panel panel) { }
-    public void RemoveFromManagedPanels(int ndx) { }
-
-    private bool IsPanelFound(Panel panel) { return managedPanels.SingleOrDefault(p => p.PanelObject == panel) != null ? true : false; }
-    private bool IsPanelFound(GameObject panel) { return managedPanels.SingleOrDefault(p => p.PanelObject == panel) != null ? true : false; }
-    private bool IsPanelFound(string name) { return managedPanels.SingleOrDefault(p => p.PanelName == name) != null ? true : false; }
-
-    // panelStack Methods 
-
-    public Panel GetStackPanel(int ndx) { return panelStack.Single(i => i.PanelIndex == ndx); }
-    public Panel GetStackPanel(string name) { return panelStack.Single(n => n.PanelName == name); }
-    public Panel GetStackPanel(GameObject obj) { return panelStack.Single(o => o.PanelObject); }
 
     public int Push(string name) { return Push(FindManagedPanel(name)); }
     public int Push(Panel panel)
@@ -165,9 +163,6 @@ public class PanelManager : MonoBehaviour
         return ndx;
     }
 
-    public int JumpTo(int index) { return 1; }
-    public int JumpTo(Panel panel) { return 1; }
-
     public void Swap()
     {
         if (panelStack.Count <= 1) return;
@@ -179,15 +174,23 @@ public class PanelManager : MonoBehaviour
 
     }
 
-    public int GetStackPanelCount() { return panelStack.Count; }
-
     /** 
      * Private Methods
      **/
 
+    private bool IsPanelManaged(Panel panel) { return managedPanels.SingleOrDefault(p => p.PanelObject == panel) != null ? true : false; }
+    private bool IsPanelManaged(GameObject panel) { return managedPanels.SingleOrDefault(p => p.PanelObject == panel) != null ? true : false; }
+    private bool IsPanelManaged(string name) { return managedPanels.SingleOrDefault(p => p.PanelName == name) != null ? true : false; }
+
     private Panel FindManagedPanel(string name) { return managedPanels.SingleOrDefault(p => p.PanelName == name); }
     private Panel FindManagedPanel(Panel panel) { return managedPanels.SingleOrDefault(p => p.PanelObject == panel.gameObject); }
     private Panel FindManagedPanel(int i) { return managedPanels[Math.Clamp(i, 0, managedPanels.Count)]; }
+
+    //TODO Possibly delete this method
+    private Panel GetStackPanel(int ndx) { return panelStack.Single(i => i.PanelIndex == ndx); }
+    private Panel GetStackPanel(string name) { return panelStack.Single(n => n.PanelName == name); }
+    private Panel GetStackPanel(GameObject obj) { return panelStack.Single(o => o.PanelObject); }
+
 
     private void FindPanels()
     {
