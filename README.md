@@ -17,4 +17,4 @@
 - [CODE_OF_CONDUCT.md](https://wwww.github.com/BriarSMC/PanelManager/blob/main/CODE_OF_CONDUCT.md)
 - [pull_request_template.md](https://wwww.github.com/BriarSMC/PanelManager/blob/main/.github/pull_request_template.md)
 - [bug_report.md](https://github.com/BriarSMC/PanelManager/blob/main/.github/ISSUE_TEMPLATE/bug_report.md)
-- [feature_request.md](https://wwww.github.com/BriarSMC/PanelManager/blob/main/.github/ISSUE_TEMPLATE/feature_request.md)
+- [feature_request.md](https://github.com/BriarSMC/PanelManager/blob/main/.github/ISSUE_TEMPLATE/feature_request.md)
