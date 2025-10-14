@@ -1177,9 +1177,8 @@ GameObject:
   - component: {fileID: 841603538}
   - component: {fileID: 841603537}
   - component: {fileID: 841603536}
-  - component: {fileID: 841603539}
   m_Layer: 5
-  m_Name: PanelManager
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1197,11 +1196,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1189015745}
-  - {fileID: 1343711064}
-  - {fileID: 1733993848}
-  - {fileID: 1215229662}
-  - {fileID: 2113127327}
+  - {fileID: 1738794487}
   m_Father: {fileID: 115955772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1272,21 +1267,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &841603539
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841603534}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2690879ff7fb7094bb99315d0dd1c55d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PanelManager
-  initialPanel: {fileID: 0}
-  managedPanels: []
-  panelStack: []
 --- !u!1 &1004515037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,17 +1685,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160188964}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 803406607}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1160188966
 MonoBehaviour:
@@ -1844,19 +1824,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1189015744}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 756553708}
   - {fileID: 1874184918}
-  m_Father: {fileID: 841603535}
+  m_Father: {fileID: 1738794487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 700, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1189015746
 MonoBehaviour:
@@ -1897,7 +1877,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel1
-  PanelIndex: 0
 --- !u!114 &1189015748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1948,7 +1927,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c789d53f8b214ec1185a7be4f9dcfc28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelManager: {fileID: 841603539}
+  panelManager: {fileID: 1738794488}
   nextBtn: {fileID: 1874184919}
 --- !u!1 &1215229661
 GameObject:
@@ -1978,7 +1957,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215229661}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1987,12 +1966,12 @@ RectTransform:
   - {fileID: 1965675624}
   - {fileID: 1620218796}
   - {fileID: 1004515038}
-  m_Father: {fileID: 841603535}
+  m_Father: {fileID: 1738794487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 700, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1215229663
 MonoBehaviour:
@@ -2033,7 +2012,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel4
-  PanelIndex: 0
 --- !u!114 &1215229665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2084,7 +2062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25750751334823e6283e5184d7de565e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelManager: {fileID: 841603539}
+  panelManager: {fileID: 1738794488}
   prevBtn: {fileID: 1965675625}
   nextBtn: {fileID: 1620218797}
   swapBtn: {fileID: 1004515039}
@@ -2237,19 +2215,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343711063}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1649674104}
   - {fileID: 1469664544}
-  m_Father: {fileID: 841603535}
+  m_Father: {fileID: 1738794487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 700, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1343711065
 MonoBehaviour:
@@ -2290,7 +2268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel2
-  PanelIndex: 0
 --- !u!114 &1343711067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2341,7 +2318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c12cfe08e43c9b3a96ff5b39f26d8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelManager: {fileID: 841603539}
+  panelManager: {fileID: 1738794488}
   nextBtn: {fileID: 1469664545}
 --- !u!1 &1422242806
 GameObject:
@@ -3018,7 +2995,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1688362099}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3157,19 +3134,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733993847}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1493020852}
   - {fileID: 1293189356}
-  m_Father: {fileID: 841603535}
+  m_Father: {fileID: 1738794487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 700, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1733993849
 MonoBehaviour:
@@ -3210,7 +3187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel3
-  PanelIndex: 0
 --- !u!114 &1733993851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3261,8 +3237,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f13de81d38f70116495df88bccbf0d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelManager: {fileID: 841603539}
+  panelManager: {fileID: 1738794488}
   nextBtn: {fileID: 1293189357}
+--- !u!1 &1738794486
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1738794487}
+  - component: {fileID: 1738794488}
+  m_Layer: 5
+  m_Name: PanelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1738794487
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738794486}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1189015745}
+  - {fileID: 1343711064}
+  - {fileID: 1733993848}
+  - {fileID: 1215229662}
+  - {fileID: 2113127327}
+  m_Father: {fileID: 841603535}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1738794488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738794486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2690879ff7fb7094bb99315d0dd1c55d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialPanel: {fileID: 1189015747}
+  managedPanels: []
+  panelStack: []
 --- !u!1 &1874184917
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,7 +3838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5aae4ca80e1aece97b5cbb13a65d1819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelManager: {fileID: 841603539}
+  panelManager: {fileID: 1738794488}
 --- !u!4 &2048709938
 Transform:
   m_ObjectHideFlags: 0
@@ -4201,7 +4233,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113127326}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4210,12 +4242,12 @@ RectTransform:
   - {fileID: 333778220}
   - {fileID: 803406607}
   - {fileID: 178092302}
-  m_Father: {fileID: 841603535}
+  m_Father: {fileID: 1738794487}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 700, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2113127328
 MonoBehaviour:
@@ -4256,7 +4288,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel5
-  PanelIndex: 0
 --- !u!114 &2113127330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4307,7 +4338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e70139dc58cc2043cb660e271c59185d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  panelManager: {fileID: 841603539}
+  panelManager: {fileID: 1738794488}
   prevBtn: {fileID: 333778221}
   popBtn: {fileID: 803406608}
   popToBtn: {fileID: 178092303}
