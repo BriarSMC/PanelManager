@@ -5,10 +5,30 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine.Rendering;
 
+/**
+ *
+ * Copyright © 2025 by Steven M. Coghill
+ * This project is licensed under the MIT License.
+ * A copy of the MIT License can be found in the 
+ * accompanying LICENSE.txt file.
+ **/
+
+/** 
+ * https://games.coghillclan.net/
+ * 
+ * https://www.github.com/BriarSMC/
+ *
+ * Version: 0.1.0
+ * Version History
+ * ----------------------------------------------------------------------------
+ * nn.nn.nn dd-mmm-yyyy Comment 
+ **/
 public class PanelManager : MonoBehaviour
 {
+
     [SerializeReference] Panel initialPanel;
 
+    public const string Version = "0.1.0";
     public List<Panel> managedPanels;
     public List<Panel> panelStack = new List<Panel>();
 
@@ -16,10 +36,10 @@ public class PanelManager : MonoBehaviour
      * Unity Methods
      **/
 
-    void Awake()
-    {
+    // void Awake()
+    // {
 
-    }
+    // }
 
     void Start()
     {
@@ -29,6 +49,7 @@ public class PanelManager : MonoBehaviour
          * Disable all panels.
          * Push the initial panel onto the stack.
          **/
+
         FindPanels();
         if (managedPanels.Count == 0) throw new ApplicationException("PanalManager: No panels found.");
         if (initialPanel == null) { initialPanel = managedPanels[0]; }
@@ -38,7 +59,10 @@ public class PanelManager : MonoBehaviour
 
 
 
-    // managedPanel Methods
+    /**
+     * Public Methods
+     **/
+
     public void ManagerEnable(bool enable)
     {
         if (enable) TurnOnPanel(panelStack[panelStack.Count - 1]);
