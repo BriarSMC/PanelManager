@@ -36,6 +36,10 @@ PanelManager is OpenSource under the MIT License. The GitHub repository for the 
 
 https://www.github.com/BriarSMC/PanelManager
 
+## Building the Package
+
+//TODO: Add Building Package Chapter
+
 ## UI
 
 Panel Manager controls displaying panels on a UI Canvas. The UI has a similar structure:
@@ -52,19 +56,110 @@ UI Document (optional)
       .
 ```
 
-PanelManager must be in the child tree of the Canvas object. Panels must be children of the **PanelManager** object. **PanelManager.cs** finds all the `<Panel>` child objects and adds them to its list of managed panels.
+<!--PanelManager must be in the child tree of the Canvas object. Panels must be children of the **PanelManager** object. **PanelManager.cs** finds all the `<Panel>` child objects and adds them to its list of managed panels. -->
 
-### Scripts
+The UI consists of a **PanelManager** object with one or more child UI panel objects. The developer attaches the **PanelManager.cs** script to an child object of the **Canvas** UI object. Usually an empty object. (The **PanelManager.cs** script can be attached to the **Canvas** object, but not recommended for clarity's sake.) The developer attaches **Panel.cs** script to each of the UI panel objects.
 
-The **PanelManager.cs** script must be attached to the **PanelManager** object and the **Panel.cs** script must be attached to all the **Panel** objects.
+**PanelManager** uses to List<Panel> objects to control what panels
 
-Each individual **Panel** must have a separate user-written script to control actions for that **Panel**. Include the following to access the Panel Manager methods and properties:
+## How It Works
+
+The goal of **PanelManager** is to control which of multiple UI Panels to display on the UI canvas. The manager uses a _stack_ to control which UI panels the UI currently displays. This developer pushes **Panel** objects onto the stack as needed. The manager displays top **Panel** on the stack. It does this my using `Panel.gameObject.SetActive(bool)`. The manager sets all of the **Panel** objects on the stack to _false_ except for the top element (which is set to _true_). A result of this approach is that, regardless of panel positioning on the canvas, only the top **Panel** on the stack is visible. (A future version may allow the **Panel** objects to occlude objects lower on the stack.)
+
+The developer controls the stack by using the **PanelManager** methods:
+
+- ManagerEnable
+- Push
+- Pop
+- PopTo
+- Swap
+
+### Setup
+
+**PanelManager** requires only one setup step. That is to optionally set:
+
+`[SerializeReference] Panel initialPanel`
+
+This allows the developer to direct which **Panel** **PanelManager** displays when activated. This is optional. If not set (null), then **PanelManager** will use the first child **Panel** object as the first **Panel** to display.
+
+Each UI Panel requires two setup steps.
+
+First the developer **Panel** optionally sets:
+
+`[SerializeField] string panelName`
+
+If the the developer does not set this property, then **Panel** will use the GameObject.name as the **Panel** name.
+
+Second the developer must attach a separate, controller script to each UI panel object. We do not recommend modifying the **Panel.cs** script to control how individual UI panels respond to game events.
+
+Each individual UI panel script must include the following to access the **PanelManager** methods and properties:
 
 ```
   [SerialReference] PanelManager panelManager;
 ```
 
-Drag the **PanelManager** object in the Unity Editor to this field.
+This is not optional. The developer must set this property in the Unity Editor Inspector window so that the script can access **PanelManager** properties and methods.
+
+### PanelManager
+
+**_Properties_**
+
+- firstPanel
+- Version
+- managedPanels
+- panelStack
+
+`firstPanel` controls which panel to display first and can be set by the developer in the Unity Editor Inspector.
+
+`Version` is a constant string with this package's version number.
+
+`managedPanels` is a `List<Panel>` used to store references to the child **Panel** objects.
+
+`panelStack` is a `List<Panel>` used to store the current chain of displayed **Panel** objects.
+
+**_Unity Methods_**
+
+`Start()`
+
+1. Loads **managedPanels** with references to all the **PanelManager** child **Panel** objects
+1. If **initialPanel** is not set (null), then set it to the first element of **managedPanels**
+1. Push **initialPanel** onto **panelStack**
+1. Disable the **PanelManager**
+
+Disabling the **PanelManager** prevents it from displaying the UI at start up. The developer must explicitly call `PanelManager.ManagerEnable(true)` to display the first panel. Likewise, the developer calls `PanelManager.ManagerEnable(false)` to stop displaying UI panels.
+
+**_Public Methods_**
+
+The public methods allow the developer to manipulate the `panelStack` list. **PanelManager** always displays the **Panel** that is on top of the stack.
+
+**_Private Methods_**
+
+These methods allow **PanelManager** to manipulate the `managedPanels` list. **Panel** objects should never manipulate this list.
+
+### Panel Class
+
+**_Properties_**
+
+- panelName
+- PanelObject
+- PanelName
+- PanelIndex
+
+**_Unity Methods_**
+
+`OnAwake()`
+
+We use `OnAwake()'` to insure the **Panel** objects are initialized before **PanelManager** accesses them in its `Start()` method. We set the **Panel** object's properties in this method.
+
+`public override string ToString()` allows for easy conversion of a **Panel** object to string format.
+
+**_Public Methods_**
+
+`public void SetPanelName(string panelName)` allows the developer to set the **Panel** objects name programmatically. **WARNING:** _The developer must ensure that the rest of the application uses this new name when calling **PanelManager** methods._
+
+**_Private Methods_**
+
+None.
 
 ## Panel Class
 

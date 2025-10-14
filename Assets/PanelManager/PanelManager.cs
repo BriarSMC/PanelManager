@@ -46,7 +46,8 @@ public class PanelManager : MonoBehaviour
          **/
 
         FindPanels();
-        //TODO Need to throw an exception if managedPanels contains duplicate names.
+        // TODO: Need to throw an exception if managedPanels contains duplicate names.
+
         if (managedPanels.Count == 0) throw new ApplicationException("PanalManager: No panels found.");
         if (initialPanel == null) { initialPanel = managedPanels[0]; }
         Push(initialPanel); // Put it on the stack
