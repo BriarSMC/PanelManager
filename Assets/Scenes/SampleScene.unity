@@ -1877,7 +1877,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel1
-  PanelIndex: 0
 --- !u!114 &1189015748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2013,7 +2012,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel4
-  PanelIndex: 0
 --- !u!114 &1215229665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2270,7 +2268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel2
-  PanelIndex: 0
 --- !u!114 &1343711067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3190,7 +3187,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel3
-  PanelIndex: 0
 --- !u!114 &1733993851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3296,7 +3292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2690879ff7fb7094bb99315d0dd1c55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialPanel: {fileID: 0}
+  initialPanel: {fileID: 1189015747}
   managedPanels: []
   panelStack: []
 --- !u!1 &1874184917
@@ -4292,7 +4288,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Panel
   panelName: Panel5
-  PanelIndex: 0
 --- !u!114 &2113127330
 MonoBehaviour:
   m_ObjectHideFlags: 0
