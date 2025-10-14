@@ -13,3 +13,5 @@
 - [LICENSE.txt](https://www.github.com/BriarSMC/PanelManager/blob/main/LICENSE.txt)
 - [USERGUIDE.md](https://www.github.com/BriarSMC/PanelManager/blob/main/USERGUIDE.md)
 - [IMPLEMENTATION.md](https://www.github.com/BriarSMC/PanelManager/blob/main/IMPLEMENTATION.md)
+- [CONTRIBUTING.md](https://wwww.github.com/BriarSMC/PanelManager/blob/main/CONTRIBUTNG.md)
+- [CODE_OF_CONDUCT.md](https://wwww.github.com/BriarSMC/PanelManager/blob/main/CODE_OF_CONDUCT.md)
